@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="testesAngular">
+<head>
+    <title>Pesquisa de Aeroportos</title> 
+    <meta charset="utf-8"/>   
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">  
+    <script src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript">
+    
+        var testesAngular = angular.module("testesAngular",[]);
+
+        testesAngular.controller("pesquisaCtrl",function($scope){
+
+        	function removeAccents(value) {
+		        return value
+		            .replace(/á/g, 'a')            
+		            .replace(/é/g, 'e')
+		            .replace(/í/g, 'i')
+		            .replace(/ó/g, 'o')
+		            .replace(/ú/g, 'u')
+		            .replace(/ã/g, 'a')
+		            .replace(/ẽ/g, 'e')
+		            .replace(/ĩ/g, 'i')
+		            .replace(/õ/g, 'o')
+		            .replace(/ũ/g, 'u');
+		    }
+		    
+		    $scope.ignoreAccents = function(item) {               
+		        if (!$scope.search)
+		            return true;       
+		        var text = removeAccents(item.toLowerCase())
+		        var search = removeAccents($scope.search.toLowerCase());
+		        return text.indexOf(search) > -1;
+		    };
+
+		    $scope.colecao = ['São Paulo', 'Belém', 'André', 'Maranhão', 'Raúl', 'São Luis'];        	
+
+        });
+        
+    </script>   
+</head>
+<body>  
+    Estado : <input ng-model="search" />  
+   
+    <div ng-controller="pesquisaCtrl">
+        <table ng-repeat="dados in colecao | filter: ignoreAccents">
+            <tr>
+                <td>{{dados}}</td>                
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
